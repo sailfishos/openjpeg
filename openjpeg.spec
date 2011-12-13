@@ -32,7 +32,6 @@ Patch27: openjpeg-svn470-t1-flags-mmx.patch
 Patch28: openjpeg-20070719svn-mqc-more-optimize.patch
 ## upstreamable patches
 # libopenjpeg has undefined references, http://bugzilla.redhat.com/467661
-Patch50: openjpeg-1.3-libm.patch
 Patch51: openjpeg-1.3-fix-type-error.patch
 
 %description
@@ -77,7 +76,7 @@ rm -rf libs
 %patch24 -p1
 %patch21 -p1
 %patch28 -p1
-%patch50 -p1 -b .libm
+#%patch50 -p1 -b .libm
 %patch51 -p1 -b .fix-type-error
 
 %build
