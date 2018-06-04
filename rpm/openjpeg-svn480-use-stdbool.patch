@@ -1,7 +1,8 @@
-diff -urN -x '*.orig' -x '*.rej' -x '*~' -x '.*' OpenJPEG.orig/libopenjpeg/openjpeg.h OpenJPEG.patched/libopenjpeg/openjpeg.h
---- OpenJPEG.orig/libopenjpeg/openjpeg.h	2007-11-14 05:34:48.000000000 -0600
-+++ OpenJPEG.patched/libopenjpeg/openjpeg.h	2007-11-16 20:41:53.000000000 -0600
-@@ -61,7 +61,7 @@
+diff --git a/src/lib/openjp3d/openjp3d.h b/src/lib/openjp3d/openjp3d.h
+index 0dd8aed..7b78ba6 100644
+--- a/src/lib/openjp3d/openjp3d.h
++++ b/src/lib/openjp3d/openjp3d.h
+@@ -71,7 +71,7 @@ defined with this macro as being exported.
  #endif /* !OPJ_STATIC || !WIN32 */
  
  #ifndef __cplusplus
