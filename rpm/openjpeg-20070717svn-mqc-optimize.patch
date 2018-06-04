@@ -1,0 +1,45 @@
+diff --git a/src/lib/openmj2/mqc.c b/src/lib/openmj2/mqc.c
+index 60d0572..c832fa6 100644
+--- a/src/lib/openmj2/mqc.c
++++ b/src/lib/openmj2/mqc.c
+@@ -595,22 +595,27 @@ void mqc_init_dec(opj_mqc_t *mqc, unsigned char *bp, int len)
+ 
+ int mqc_decode(opj_mqc_t *const mqc)
+ {
+-    int d;
+-    mqc->a -= (*mqc->curctx)->qeval;
+-    if ((mqc->c >> 16) < (*mqc->curctx)->qeval) {
+-        d = mqc_lpsexchange(mqc);
+-        mqc_renormd(mqc);
+-    } else {
+-        mqc->c -= (*mqc->curctx)->qeval << 16;
+-        if ((mqc->a & 0x8000) == 0) {
+-            d = mqc_mpsexchange(mqc);
+-            mqc_renormd(mqc);
+-        } else {
+-            d = (*mqc->curctx)->mps;
++    unsigned int qeval = (*mqc->curctx)->qeval;
++    mqc->a -= qeval;
++    bool tmp = (mqc->a < qeval);
++    qeval <<= 16;
++    if (mqc->c >= qeval) {
++        mqc->c -= qeval;
++        if (mqc->a & 0x8000) {
++            return (*mqc->curctx)->mps;
+         }
++    }else{
++        tmp = !tmp;
++        mqc->a = (*mqc->curctx)->qeval;
+     }
+ 
+-    return d;
++    opj_mqc_state_t* nmps = (*mqc->curctx)->nmps;
++    opj_mqc_state_t* nlps = (*mqc->curctx)->nlps;
++    int mps = (*mqc->curctx)->mps ^ tmp;
++    *mqc->curctx = tmp ? nlps : nmps;
++
++    mqc_renormd(mqc);
++    return mps;
+ }
+ 
+ void mqc_resetstates(opj_mqc_t *mqc)
