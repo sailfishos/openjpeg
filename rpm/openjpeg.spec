@@ -57,7 +57,7 @@ The openjpeg-devel package contains libraries and header files for
 developing applications that use OpenJPEG.
 
 %prep
-%setup -q -n OpenJPEG_v1_3
+%setup -q -n %{name}-%{version}/upstream
 # Windows stuff, delete it, it slows down patch making
 rm -rf jp3d
 # Make sure we use system libraries
