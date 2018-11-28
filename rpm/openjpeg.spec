@@ -2,12 +2,9 @@ Name:    openjpeg
 Version: 2.3.0
 Release: 1
 Summary: JPEG 2000 codec library
-
 Group:     System/Libraries
 License:   BSD
 URL:       http://www.openjpeg.org/
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
 BuildRequires: cmake
 BuildRequires: libtiff-devel
 
@@ -33,6 +30,7 @@ The openjpeg-utils package contains command-line tools.
 Summary:  Development files for openjpeg
 Group:    Development/Libraries
 Requires: openjpeg = %{version}-%{release}
+Requires: openjpeg-utils = %{version}-%{release}
 
 %description devel
 The openjpeg-devel package contains libraries and header files for
@@ -46,7 +44,8 @@ developing applications that use OpenJPEG.
 %build
 if [ ! -d build ] ; then mkdir build; fi
 pushd build
-%cmake .. -DBUILD_EXAMPLES:BOOL=ON
+%cmake -DBUILD_STATIC_LIBS=OFF -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+       ..
 make %{?_smp_mflags}
 popd
 
@@ -54,7 +53,6 @@ popd
 rm -rf %{buildroot}
 pushd build
 make install DESTDIR="%{buildroot}"
-rm %{buildroot}%{_libdir}/libopenjp2.a
 popd
 
 %check
