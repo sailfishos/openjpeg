@@ -1,8 +1,7 @@
 Name:    openjpeg
-Version: 2.3.0
+Version: 2.3.1
 Release: 1
 Summary: JPEG 2000 codec library
-Group:     System/Libraries
 License:   BSD
 URL:       http://www.openjpeg.org/
 BuildRequires: cmake
@@ -10,8 +9,8 @@ BuildRequires: libtiff-devel
 
 Source0: https://github.com/uclouvain/%{name}/archive/%{name}-%{version}.tar.gz
 
-Patch5: openjpeg-svn480-use-stdbool.patch
-Patch21: openjpeg-20070717svn-mqc-optimize.patch
+Patch0: openjpeg2_CVE-2020-6851.patch
+Patch1: 0001-opj_tcd_init_tile-avoid-integer-overflow.patch
 
 %description
 OpenJPEG is an open-source JPEG 2000 codec written in C language. It has been
@@ -20,7 +19,6 @@ compression standard from the Joint Photographic Experts Group (JPEG).
 
 %package utils
 Summary: OpenJPEG command-line tools
-Group:   Applications/Multimedia
 Requires: openjpeg = %{version}-%{release}
 
 %description utils
@@ -28,7 +26,6 @@ The openjpeg-utils package contains command-line tools.
 
 %package  devel
 Summary:  Development files for openjpeg
-Group:    Development/Libraries
 Requires: openjpeg = %{version}-%{release}
 Requires: openjpeg-utils = %{version}-%{release}
 
@@ -37,9 +34,7 @@ The openjpeg-devel package contains libraries and header files for
 developing applications that use OpenJPEG.
 
 %prep
-%setup -q -n %{name}-%{version}/upstream
-%patch5 -p1
-%patch21 -p1
+%autosetup -p1 -n %{name}-%{version}/upstream
 
 %build
 if [ ! -d build ] ; then mkdir build; fi
@@ -59,15 +54,12 @@ popd
 # mostly pointless without test images, but it's a start -- Rex
 # make test -C build
 
-%clean
-rm -rf %{buildroot}
-
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
 %files
 %defattr(-,root,root,-)
-%doc LICENSE
+%license LICENSE
 %{_libdir}/libopenjp2.so.*
 
 %files utils
@@ -82,4 +74,3 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig
 %{_libdir}/libopenjp2.so
 %{_libdir}/openjpeg-2.3/
-
