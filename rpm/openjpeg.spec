@@ -39,7 +39,9 @@ developing applications that use OpenJPEG.
 %build
 if [ ! -d build ] ; then mkdir build; fi
 pushd build
-%cmake -DBUILD_STATIC_LIBS=OFF -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+%cmake -DBUILD_STATIC_LIBS=OFF -DBUILD_SHARED_LIBS=ON \
+       -DCMAKE_BUILD_TYPE=Release \
+       -DOPENJPEG_INSTALL_LIB_DIR=%{_lib} \
        ..
 make %{?_smp_mflags}
 popd
