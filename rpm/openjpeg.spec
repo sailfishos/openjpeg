@@ -1,16 +1,12 @@
 Name:    openjpeg
-Version: 2.3.1
+Version: 2.4.0
 Release: 1
 Summary: JPEG 2000 codec library
 License:   BSD
 URL:       http://www.openjpeg.org/
 BuildRequires: cmake
-BuildRequires: libtiff-devel
 
-Source0: https://github.com/uclouvain/%{name}/archive/%{name}-%{version}.tar.gz
-
-Patch0: openjpeg2_CVE-2020-6851.patch
-Patch1: 0001-opj_tcd_init_tile-avoid-integer-overflow.patch
+Source0: %{name}-%{version}.tar.bz2
 
 %description
 OpenJPEG is an open-source JPEG 2000 codec written in C language. It has been
@@ -43,13 +39,13 @@ pushd build
        -DCMAKE_BUILD_TYPE=Release \
        -DOPENJPEG_INSTALL_LIB_DIR=%{_lib} \
        ..
-make %{?_smp_mflags}
+%make_build
 popd
 
 %install
 rm -rf %{buildroot}
 pushd build
-make install DESTDIR="%{buildroot}"
+%make_install
 popd
 
 %check
@@ -72,7 +68,7 @@ popd
 
 %files devel
 %defattr(-,root,root,-)
-%{_includedir}/openjpeg-2.3/
+%{_includedir}/openjpeg-2.4/
 %{_libdir}/pkgconfig
 %{_libdir}/libopenjp2.so
-%{_libdir}/openjpeg-2.3/
+%{_libdir}/openjpeg-2.4/
