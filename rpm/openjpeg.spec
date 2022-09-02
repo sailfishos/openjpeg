@@ -1,5 +1,5 @@
 Name:    openjpeg
-Version: 2.4.0
+Version: 2.5.0
 Release: 1
 Summary: JPEG 2000 codec library
 License:   BSD
@@ -68,7 +68,7 @@ popd
 
 %files devel
 %defattr(-,root,root,-)
-%{_includedir}/openjpeg-2.4/
+%{_includedir}/openjpeg-*/
 %{_libdir}/pkgconfig
 %{_libdir}/libopenjp2.so
-%{_libdir}/openjpeg-2.4/
+%{_libdir}/openjpeg-*/
