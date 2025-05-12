@@ -1,9 +1,9 @@
 Name:    openjpeg
-Version: 2.5.0
+Version: 2.5.3
 Release: 1
 Summary: JPEG 2000 codec library
 License:   BSD
-URL:       http://www.openjpeg.org/
+URL:       https://github.com/sailfishos/openjpeg
 BuildRequires: cmake
 
 Source0: %{name}-%{version}.tar.bz2
@@ -33,20 +33,13 @@ developing applications that use OpenJPEG.
 %autosetup -p1 -n %{name}-%{version}/upstream
 
 %build
-if [ ! -d build ] ; then mkdir build; fi
-pushd build
 %cmake -DBUILD_STATIC_LIBS=OFF -DBUILD_SHARED_LIBS=ON \
        -DCMAKE_BUILD_TYPE=Release \
-       -DOPENJPEG_INSTALL_LIB_DIR=%{_lib} \
-       ..
-%make_build
-popd
+       -DOPENJPEG_INSTALL_LIB_DIR=%{_lib}
+%cmake_build
 
 %install
-rm -rf %{buildroot}
-pushd build
-%make_install
-popd
+%cmake_install
 
 %check
 # mostly pointless without test images, but it's a start -- Rex
@@ -56,19 +49,16 @@ popd
 %postun -p /sbin/ldconfig
 
 %files
-%defattr(-,root,root,-)
 %license LICENSE
 %{_libdir}/libopenjp2.so.*
 
 %files utils
-%defattr(-,root,root,-)
 %{_bindir}/opj_compress
 %{_bindir}/opj_decompress
 %{_bindir}/opj_dump
 
 %files devel
-%defattr(-,root,root,-)
 %{_includedir}/openjpeg-*/
 %{_libdir}/pkgconfig
 %{_libdir}/libopenjp2.so
-%{_libdir}/openjpeg-*/
+%{_libdir}/cmake/openjpeg-*/
